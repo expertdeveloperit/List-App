@@ -1,0 +1,47 @@
+.btn {
+   margin-right: 10px;
+   margin-bottom: 10px;
+}
+.signup_wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;    
+    min-height: 90vh;
+    max-width: 500px;
+}
+.edit_wrapper {
+	 display: flex;
+    flex-direction: column;
+    justify-content: top;    
+    min-height: 90vh;
+    max-width: 500px;
+    margin-top: 20px;
+}
+.list {
+    margin-bottom: 15px;
+    padding:10px;
+}
+.head {
+    padding-top: 20px;
+    margin-bottom: 20px;
+}
+.error {
+    color: #ea0606;
+    font-size: 16px;
+    padding: 8px;
+}
+body {
+	background-color: #88bfbf;
+}
+
+.res {
+ padding: 10px 0px;
+    color: green;
+    font-size: 18px;
+}
+
+.err {
+    padding: 10px 0px;
+    color: red;
+    font-size: 18px;
+}
