@@ -5,7 +5,7 @@ import {
   deletetLists
 } from '../actions/list-action';
 import Cookies from 'universal-cookie';
-import { Link , Redirect} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 class List extends Component {
 
@@ -27,7 +27,7 @@ class List extends Component {
      const cookies = new Cookies();
         const token = cookies.get('listLoggin');
         if (token) {
-    
+          this.setState({token});
           this.props.getLists(token);
         }
   }
@@ -51,21 +51,15 @@ class List extends Component {
   }
 
   handleDelete(id) {
-     const cookies = new Cookies();
-        const token = cookies.get('listLoggin');
-        if (token) {
+ 
     var r = window.confirm("Really want to delete!");
     if (r === true) {
-         this.props.deletetLists(id, token)
+         this.props.deletetLists(id, this.state.token)
        }
-     }
   }
 
   render() {
-     const cookies = new Cookies();
-    if(!cookies.get('listLoggin')){
-      return <Redirect to='/login'/>
-    }
+   
     if( this.state.lists.length ) {
       var lists = this.state.lists.map((list,i) => {
            return (

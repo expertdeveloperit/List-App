@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link , Redirect} from 'react-router-dom';
 import {
-  register
+  register,
+  isAuthenticated
 } from '../actions/user-action';
 
 class UserRegister extends Component {
@@ -36,18 +37,21 @@ class UserRegister extends Component {
       return  this.setState({ error2: 'Password is required' });
     } 
 
+   var passw=  /^[A-Za-z]\w{6,8}$/;
+
+   if(!this.state.password.match(passw)) {
+       return  this.setState({ error2: 'Password should be at least 6-8 characters long' });
+    } 
    const body = { 
       email:this.state.email,
       password:this.state.password,
       status:false
    };
-
-
    this.props.register(body)
 
   }
 
-   componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
      if (this.props !== nextProps) {          
          if(nextProps.user.fetched){
            this.setState({ message: nextProps.user.user.message })
@@ -77,6 +81,9 @@ class UserRegister extends Component {
   }
 
   render() {
+     if(this.props.isAuthenticated()){
+       return ( <Redirect to="/" /> );
+     }
     return (
       <div className="container signup_wrapper wrapper">
        <h2 className="text-center">Register</h2>
@@ -106,7 +113,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  register
+  register,
+  isAuthenticated
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(UserRegister);

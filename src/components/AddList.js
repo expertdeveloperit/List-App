@@ -4,7 +4,6 @@ import {
   addLists
 } from '../actions/list-action';
 import Cookies from 'universal-cookie';
-import { Redirect } from 'react-router-dom';
 
 class AddList extends Component {
 
@@ -92,13 +91,6 @@ class AddList extends Component {
   }
 
   render() { 
-
-     const cookies = new Cookies();
-    if(!cookies.get('listLoggin')){
-      return <Redirect to='/login'/>
-    }
-   
-
     return (
       <div className="container edit_wrapper">
        <h2 className="text-center"> Add List Item</h2>

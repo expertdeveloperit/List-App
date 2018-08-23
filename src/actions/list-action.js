@@ -1,5 +1,4 @@
 import axios from 'axios';
-import Cookies from 'universal-cookie';
 
 export const getListSuccess = payload => ({
   type: getListSuccess,
@@ -50,7 +49,6 @@ export const getSingleListFailure = payload => ({
 
 
 export const getLists = (token) => dispatch =>  {
-
     axios.get('http://localhost:4000/api/lists',{ headers: { Authorization: `Bearer ${token}` }})
     .then(res => {
       const { data } = res;
@@ -64,12 +62,7 @@ export const getLists = (token) => dispatch =>  {
 }
 
 
-export const getSingleList = (id) => dispatch =>  {
-
-    const cookies = new Cookies();
-    const token = cookies.get('listLoggin');
-    if (token) {
-
+export const getSingleList = (id, token) => dispatch =>  {
     axios.get(`http://localhost:4000/api/lists/${id}`,{ headers: { Authorization: `Bearer ${token}` }})
     .then(res => {
       const { data } = res;
@@ -80,7 +73,6 @@ export const getSingleList = (id) => dispatch =>  {
     .catch(err => {
       return dispatch(getSingleListFailure(err));
     });
-  }
 }
 
 export const addLists = (data, token) => dispatch =>  {
@@ -97,10 +89,7 @@ export const addLists = (data, token) => dispatch =>  {
 }
 
 
-export const updateLists = (id,data) => dispatch =>  {
-   const cookies = new Cookies();
-    const token = cookies.get('listLoggin');
-    if (token) {
+export const updateLists = (id, data, token) => dispatch =>  {
     axios.put(`http://localhost:4000/api/lists/${id}`, data, { headers: { Authorization: `Bearer ${token}` }} )
     .then(res => {
       const { data } = res;
@@ -111,7 +100,6 @@ export const updateLists = (id,data) => dispatch =>  {
     .catch(err => {
       return dispatch(updateListFailure(err));
     });
-  }
 }
 
 

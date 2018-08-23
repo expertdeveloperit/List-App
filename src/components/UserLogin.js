@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link , Redirect} from 'react-router-dom';
 import {
-  login
+  login,
+  isAuthenticated
 } from '../actions/user-action';
 import Cookies from 'universal-cookie';
 
@@ -76,6 +77,9 @@ class UserLogin extends Component {
   }
 
   render() {
+     if(this.props.isAuthenticated()){
+       return ( <Redirect to="/" /> );
+     }
     return (
       <div className="container signup_wrapper ">
        <h2 className="text-center">Login</h2>
@@ -103,7 +107,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  login
+  login,
+  isAuthenticated
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(UserLogin);

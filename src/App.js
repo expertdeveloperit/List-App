@@ -3,34 +3,27 @@ import './App.css';
 import List from './components/List';
 import AddList from './components/AddList';
 import EditList from './components/EditList';
-import Cookies from 'universal-cookie';
 import UserLogin  from './components/UserLogin';
 import UserRegister from './components/UserRegister';
 import NotFound from './components/NotFound';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import RequireAuth from './RequireAuth';
 import store from './store';
 
 class App extends Component {
  render() {
-   const cookies = new Cookies();
-   if(!cookies.get('listLoggin')){
-     <Redirect to='/login' />
-   }
   return (
     <Provider store={store}>
     <BrowserRouter>
-    <div>
      <Switch>
       <Route path='/login' component={ UserLogin } exact={true} />
-      <Route path='/' component={List} exact={true} />
+      <Route path='/' component={RequireAuth(List)} exact={true} />
       <Route path='/register' component={ UserRegister } />
-      <Route path='/lists/:id' component={ EditList}/>
-      <Route path='/lists' component={AddList } />  
+      <Route path='/lists/:id' component={ RequireAuth(EditList)}/>
+      <Route path='/lists' component={ RequireAuth(AddList) } />  
       <Route  component={ NotFound }/>
      </Switch>
-     </div>
     </BrowserRouter>
     </Provider>
    );

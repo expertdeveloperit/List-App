@@ -8,6 +8,7 @@ import {
 const initialState = {
 	 user:{},
 	 fetched:false,
+	 authenticated:false,
 	 error:{}
 }
 export default function userReducer(state = initialState, {type,payload}) {
@@ -16,6 +17,7 @@ export default function userReducer(state = initialState, {type,payload}) {
 		return {
 			...state,
 			fetched:true,
+			authenticated:true,
 			user:payload
 		}
 	 case userLoginFailure :

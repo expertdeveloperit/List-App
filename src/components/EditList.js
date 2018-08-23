@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import {
   getSingleList,
   updateLists
@@ -26,6 +25,7 @@ class EditList extends Component {
       error2: '',
       status:false,
       id:"",
+      token:'',
       message:"",
       err:""
     };
@@ -35,10 +35,17 @@ class EditList extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
- componentDidMount() {
-     let id = this.props.match.params.id
-     this.setState({id});
-     this.props.getSingleList(id)
+  componentDidMount() {
+    let id = this.props.match.params.id
+    const cookies = new Cookies();
+        const token = cookies.get('listLoggin');
+        if (token) {
+          this.setState({
+            token,
+            id
+          });
+        }
+    this.props.getSingleList(id,token)
   }
 
 
@@ -70,7 +77,7 @@ class EditList extends Component {
       description:this.state.description
    };
 
-   this.props.updateLists(this.state.id,body)
+   this.props.updateLists(this.state.id,body,this.state.token )
    setTimeout(() => { this.props.history.push('/') }, 1000 );
 
   }
@@ -96,10 +103,6 @@ class EditList extends Component {
   }
 
   render() {
-    const cookies = new Cookies();
-    if(!cookies.get('listLoggin')){
-      return <Redirect to='/login'/>
-    }
     return (
       <div className="container edit_wrapper">
        <h2 className="text-center">Update List Item</h2>

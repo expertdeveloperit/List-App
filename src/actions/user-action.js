@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookies from 'universal-cookie';
 
 export const userLoginSuccess = payload => ({
   type: userLoginSuccess,
@@ -20,6 +21,11 @@ export const userRegisterFailure = payload => ({
   payload
 });
 
+export const userAuthenticated = payload => ({
+  type: userAuthenticated,
+  payload
+});
+
 
 
 export const login = (data) => dispatch =>  {
@@ -36,16 +42,22 @@ export const login = (data) => dispatch =>  {
 }
 
 export const register = (data) => dispatch =>  {
-  console.log(data);
     axios.post('http://localhost:4000/api/register',data)
     .then(res => {
       const { data } = res;
       if (res.status === 200) {
-        console.log('data', res)
         return dispatch(userRegisterSuccess(data));
        } 
      })
     .catch(err => {
       return dispatch(userRegisterFailure(err));
     });
+}
+
+
+export const isAuthenticated = () => dispatch =>  {
+     const cookies = new Cookies();
+     if(cookies.get('listLoggin')){
+       return true
+     }
 }
